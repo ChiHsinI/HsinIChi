@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>阿嬤探訪預約系統 v2.1 - 雲端版</title>
+    <title>阿嬤探訪預約系統 v2</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -32,9 +32,9 @@
 <body>
     <div class="container">
         <div class="header text-center mb-10">
-            <h1 class="text-4xl font-bold text-blue-600 mb-2">🏥 阿嬤探訪預約系統-v2.1</h1>
-            <p class="text-gray-600">現在支援一次預約多人（上限 3 人）</p>
-            <div id="syncStatus" class="mt-3 text-sm font-medium text-blue-500">正在連接 Firebase...</div>
+            <h1 class="text-4xl font-bold text-blue-600 mb-2">🏥 阿嬤探訪預約系統 v2</h1>
+            
+            <div id="syncStatus" class="mt-3 text-sm font-medium">正在連接 Firebase...</div>
         </div>
 
         <div id="alertContainer"></div>
@@ -65,17 +65,8 @@
                         </div>
                     </div>
                     <div class="mb-5">
-                        <label class="block font-medium mb-2">主要訪客姓名 *</label>
+                        <label class="block font-medium mb-2">訪客姓名 *</label>
                         <input type="text" id="visitorName" class="w-full p-3 border-2 rounded-lg focus:border-blue-500 outline-none" placeholder="請輸入姓名" required>
-                    </div>
-                    <div class="mb-5">
-                        <label class="block font-medium mb-2">探訪人數</label>
-                        <select id="visitorCount" class="w-full p-3 border-2 rounded-lg focus:border-blue-500 outline-none">
-                            <option value="1">1 人</option>
-                            <option value="2">2 人</option>
-                            <option value="3">3 人</option>
-                        </select>
-                        <p class="text-xs text-gray-400 mt-2">* 每個時段總共僅限 3 人探訪</p>
                     </div>
                     <button type="submit" class="w-full bg-blue-600 text-white p-4 rounded-lg font-bold hover:bg-blue-700 transition">確認預約</button>
                 </form>
@@ -120,6 +111,7 @@
         let currentYear = new Date().getFullYear();
         let allBookings = [];
 
+        // 監聽數據
         onSnapshot(query(bookingsCol, orderBy("date")), (snapshot) => {
             allBookings = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
             renderUI();
@@ -136,44 +128,33 @@
             updateSlotCounts();
         }
 
+        // 取消預約 (掛載到 window)
         window.cancelBooking = async (id) => {
-            if (confirm("確定取消這筆預約嗎？")) {
+            if (confirm("確定取消？")) {
                 await deleteDoc(doc(db, "bookings", id));
                 showAlert("預約已取消");
             }
         };
 
+        // 表單提交
         document.getElementById('bookingForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const date = document.getElementById('visitDate').value;
             const name = document.getElementById('visitorName').value.trim();
-            const count = parseInt(document.getElementById('visitorCount').value); // 獲取人數
             const slotEl = document.querySelector('.time-slot.selected');
             
-            if (!slotEl) return showAlert("請選擇探訪時段", "error");
+            if (!slotEl) return showAlert("請選擇時段", "error");
             const slot = slotEl.dataset.slot;
 
-            // 計算目前該時段已預約總人數
-            const currentTotal = allBookings
-                .filter(b => b.date === date && b.slot === slot)
-                .reduce((sum, b) => sum + (parseInt(b.count) || 1), 0);
+            const count = allBookings.filter(b => b.date === date && b.slot === slot).length;
+            if (count >= 3) return showAlert("此時段已滿", "error");
 
-            if (currentTotal + count > 3) {
-                return showAlert(`名額不足！該時段僅剩 ${3 - currentTotal} 個名額。`, "error");
-            }
-
-            await addDoc(bookingsCol, { 
-                date, 
-                slot, 
-                name, 
-                count, // 存入人數
-                created: Date.now() 
-            });
-            showAlert(`預約成功！(${count}位)`);
+            await addDoc(bookingsCol, { date, slot, name, created: Date.now() });
+            showAlert("預約成功！");
             document.getElementById('visitorName').value = "";
-            document.getElementById('visitorCount').value = "1";
         });
 
+        // UI 互動
         document.querySelectorAll('.time-slot').forEach(el => {
             el.addEventListener('click', () => {
                 document.querySelectorAll('.time-slot').forEach(e => e.classList.remove('selected'));
@@ -195,19 +176,11 @@
         function updateSlotCounts() {
             const date = document.getElementById('visitDate').value;
             ['afternoon', 'evening'].forEach(s => {
-                const count = allBookings
-                    .filter(b => b.date === date && b.slot === s)
-                    .reduce((sum, b) => sum + (parseInt(b.count) || 1), 0); // 改為累加人數
-                
+                const count = allBookings.filter(b => b.date === date && b.slot === s).length;
                 document.getElementById(`${s}Count`).textContent = count;
                 const badge = document.querySelector(`[data-slot="${s}"] .time-slot-badge`);
-                if (count >= 3) { 
-                    badge.textContent = "額滿"; 
-                    badge.className = "time-slot-badge absolute top-2 right-2 px-2 py-1 rounded-full text-[10px] text-white bg-red-500"; 
-                } else { 
-                    badge.textContent = "可預約"; 
-                    badge.className = "time-slot-badge absolute top-2 right-2 px-2 py-1 rounded-full text-[10px] text-white bg-green-500"; 
-                }
+                if (count >= 3) { badge.textContent = "額滿"; badge.className = "time-slot-badge absolute top-2 right-2 px-2 py-1 rounded-full text-[10px] text-white bg-red-500"; }
+                else { badge.textContent = "可預約"; badge.className = "time-slot-badge absolute top-2 right-2 px-2 py-1 rounded-full text-[10px] text-white bg-green-500"; }
             });
         }
 
@@ -218,4 +191,59 @@
             const lastDate = new Date(currentYear, currentMonth + 1, 0).getDate();
 
             let html = `<div class="text-center font-bold text-lg mb-4">${currentYear}年 ${currentMonth+1}月</div>`;
-            html += `<div class="grid grid-cols-7 gap-1 text-center font-bold text-blue-
+            html += `<div class="grid grid-cols-7 gap-1 text-center font-bold text-blue-600 mb-2">`;
+            ['日','一','二','三','四','五','六'].forEach(d => html += `<div>${d}</div>`);
+            html += `</div><div class="grid grid-cols-7 gap-1">`;
+
+            for (let i = 0; i < firstDay; i++) html += `<div></div>`;
+            for (let d = 1; d <= lastDate; d++) {
+                const dateStr = `${currentYear}-${(currentMonth+1).toString().padStart(2,'0')}-${d.toString().padStart(2,'0')}`;
+                const dayData = data.filter(b => b.date === dateStr);
+                const isPast = new Date(currentYear, currentMonth, d) < today;
+                const status = isPast ? 'past' : (dayData.length >= 6 ? 'full' : 'available');
+                
+                html += `
+                    <div class="calendar-day ${status} text-center">
+                        <div class="font-bold">${d}</div>
+                        <div class="text-[10px] mt-1">☀️ ${dayData.filter(x=>x.slot==='afternoon').length}/3</div>
+                        <div class="text-[10px]">🌙 ${dayData.filter(x=>x.slot==='evening').length}/3</div>
+                    </div>`;
+            }
+            container.innerHTML = html + `</div>`;
+        }
+
+        function renderBookingsList(data) {
+            const container = document.getElementById('bookingsList');
+            if (!data.length) return container.innerHTML = `<div class="text-gray-400 text-center">暫無紀錄</div>`;
+            
+            const grouped = {};
+            data.forEach(b => { if(!grouped[b.date]) grouped[b.date] = []; grouped[b.date].push(b); });
+            
+            let html = "";
+            Object.keys(grouped).sort().forEach(date => {
+                html += `<div class="mb-4"><div class="font-bold text-blue-600 border-b mb-2">${date}</div>`;
+                grouped[date].forEach(b => {
+                    html += `
+                        <div class="flex justify-between items-center bg-gray-50 p-2 rounded mb-1 text-sm">
+                            <span>${b.slot === 'afternoon' ? '☀️' : '🌙'} ${b.name}</span>
+                            <button onclick="cancelBooking('${b.id}')" class="delete-btn">取消</button>
+                        </div>`;
+                });
+                html += `</div>`;
+            });
+            container.innerHTML = html;
+        }
+
+        function showAlert(m, type="success") {
+            const c = document.getElementById('alertContainer');
+            c.innerHTML = `<div class="p-3 mb-4 rounded-lg text-white ${type==='success'?'bg-green-500':'bg-red-500'}">${m}</div>`;
+            setTimeout(()=>c.innerHTML="", 3000);
+        }
+
+        // 設定初始日期
+        const tomorrow = new Date(); tomorrow.setDate(tomorrow.getDate() + 1);
+        document.getElementById('visitDate').value = tomorrow.toISOString().split('T')[0];
+        document.getElementById('visitDate').min = tomorrow.toISOString().split('T')[0];
+    </script>
+</body>
+</html>
