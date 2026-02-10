@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head><meta property="og:title" content="阿嬤探訪預約系統 Kuse AI -  Kuse AI"><meta property="og:description" content="阿嬤探訪預約系統 Kuse AI"><meta property="og:url" content="https://www.kuse.ai/pages/%E9%98%BF%E5%AC%A4%E6%8E%A2%E8%A8%AA%E9%A0%90%E7%B4%84%E7%B3%BB%E7%B5%B1-Kuse-AI/iMvYgiKtfWTP6gcg6wR9mL"><meta property="og:type" content="article"><meta property="og:site_name" content="Kuse AI"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="阿嬤探訪預約系統 Kuse AI -  Kuse AI"><meta name="twitter:description" content="阿嬤探訪預約系統 Kuse AI"><meta name="twitter:site" content="@kuseHQ"><meta property="og:title" content="阿嬤探訪預約系統 -  Kuse AI"><meta property="og:description" content="阿嬤探訪預約系統"><meta property="og:url" content="https://www.kuse.ai/pages/%E9%98%BF%E5%AC%A4%E6%8E%A2%E8%A8%AA%E9%A0%90%E7%B4%84%E7%B3%BB%E7%B5%B1/d2qneQwZSwWFm9uisXp4Nv"><meta property="og:type" content="article"><meta property="og:site_name" content="Kuse AI"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="阿嬤探訪預約系統 -  Kuse AI"><meta name="twitter:description" content="阿嬤探訪預約系統"><meta name="twitter:site" content="@kuseHQ"><link rel="canonical" href="https://www.kuse.ai/pages/%E9%98%BF%E5%AC%A4%E6%8E%A2%E8%A8%AA%E9%A0%90%E7%B4%84%E7%B3%BB%E7%B5%B1-Kuse-AI/iMvYgiKtfWTP6gcg6wR9mL"><meta name="description" content="阿嬤探訪預約系統 Kuse AI">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>阿嬤探訪預約系統 Kuse AI -  Kuse AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', 'Microsoft JhengHei', sans-serif;
+            background: linear-gradient(135deg, #E3F2FD 0%, #F1F8E9 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px 20px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            color: #1976D2;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            color: #666;
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            color: #1976D2;
+            margin-bottom: 20px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 1rem;
+            color: #333;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            font-size: 1rem;
+            border: 2px solid #E0E0E0;
+            border-radius: 8px;
+            transition: all 0.3s;
+            font-family: 'Poppins', 'Microsoft JhengHei', sans-serif;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #1976D2;
+            box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.1);
+        }
+
+        .time-slots {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .time-slot {
+            padding: 20px;
+            border: 2px solid #E0E0E0;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            position: relative;
+        }
+
+        .time-slot:hover:not(.disabled) {
+            border-color: #1976D2;
+            background: #E3F2FD;
+            transform: translateY(-2px);
+        }
+
+        .time-slot.selected {
+            border-color: #1976D2;
+            background: #1976D2;
+            color: white;
+        }
+
+        .time-slot.disabled {
+            background: #F5F5F5;
+            border-color: #E0E0E0;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .time-slot-time {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .time-slot-count {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .time-slot-badge {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .badge-available {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .badge-warning {
+            background: #FF9800;
+            color: white;
+        }
+
+        .badge-full {
+            background: #F44336;
+            color: white;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: white;
+            background: #1976D2;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+
+        .submit-btn:hover:not(:disabled) {
+            background: #1565C0;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(25, 118, 210, 0.3);
+        }
+
+        .submit-btn:disabled {
+            background: #BDBDBD;
+            cursor: not-allowed;
+        }
+
+        .booking-list {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .date-group {
+            margin-bottom: 30px;
+        }
+
+        .date-header {
+            font-size: 1.3rem;
+            color: #1976D2;
+            font-weight: 600;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #E3F2FD;
+        }
+
+        .time-group {
+            margin-bottom: 20px;
+        }
+
+        .time-group-header {
+            font-size: 1.1rem;
+            color: #666;
+            font-weight: 500;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .booking-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            background: #F5F5F5;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            transition: all 0.3s;
+        }
+
+        .booking-item:hover {
+            background: #EEEEEE;
+        }
+
+        .booking-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .booking-name {
+            font-weight: 600;
+            color: #333;
+            font-size: 1rem;
+        }
+
+
+
+        .delete-btn {
+            padding: 8px 16px;
+            background: #F44336;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .delete-btn:hover {
+            background: #D32F2F;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #999;
+        }
+
+        .empty-state svg {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 15px;
+            opacity: 0.3;
+        }
+
+        .alert {
+            padding: 16px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        .alert.show {
+            display: block;
+        }
+
+        .alert-success {
+            background: #E8F5E9;
+            color: #2E7D32;
+            border-left: 4px solid #4CAF50;
+        }
+
+        .alert-error {
+            background: #FFEBEE;
+            color: #C62828;
+            border-left: 4px solid #F44336;
+        }
+
+        .alert-warning {
+            background: #FFF3E0;
+            color: #E65100;
+            border-left: 4px solid #FF9800;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .kuse-branding {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 40px;
+            padding: 20px;
+            color: #999;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .kuse-branding:hover {
+            color: #1976D2;
+        }
+
+        .kuse-branding svg {
+            height: 1.2em;
+            transition: transform 0.3s;
+        }
+
+        .kuse-branding:hover svg {
+            transform: scale(1.1);
+        }
+
+        @media (max-width: 768px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .time-slots {
+                grid-template-columns: 1fr;
+            }
+
+            .card {
+                padding: 20px;
+            }
+        }
+    </style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"阿嬤探訪預約系統 -  Kuse AI","description":"阿嬤探訪預約系統","url":"https://www.kuse.ai/pages/%E9%98%BF%E5%AC%A4%E6%8E%A2%E8%A8%AA%E9%A0%90%E7%B4%84%E7%B3%BB%E7%B5%B1/d2qneQwZSwWFm9uisXp4Nv","author":{"@type":"Organization","name":"Kuse AI"},"publisher":{"@type":"Organization","name":"Kuse AI","url":"https://www.kuse.ai"},"inLanguage":"en","alternateName":"阿嬤探訪預約系統"}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"阿嬤探訪預約系統 Kuse AI -  Kuse AI","description":"阿嬤探訪預約系統 Kuse AI","url":"https://www.kuse.ai/pages/%E9%98%BF%E5%AC%A4%E6%8E%A2%E8%A8%AA%E9%A0%90%E7%B4%84%E7%B3%BB%E7%B5%B1-Kuse-AI/iMvYgiKtfWTP6gcg6wR9mL","author":{"@type":"Organization","name":"Kuse AI"},"publisher":{"@type":"Organization","name":"Kuse AI","url":"https://www.kuse.ai"},"inLanguage":"en","alternateName":"阿嬤探訪預約系統 Kuse AI"}</script></head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏥 阿嬤探訪預約系統</h1>
+            <p>請選擇探訪日期和時段進行預約</p>
+        </div>
+
+        <div id="alertContainer"></div>
+
+        <div class="main-grid">
+            <div class="card">
+                <h2 class="card-title">
+                    <span>📅</span>
+                    預約登記
+                </h2>
+
+                <form id="bookingForm">
+                    <div class="form-group">
+                        <label class="form-label" for="visitDate">選擇探訪日期</label>
+                        <input type="date" id="visitDate" class="form-input" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">選擇探訪時段</label>
+                        <div class="time-slots" id="timeSlots">
+                            <div class="time-slot" data-slot="afternoon">
+                                <div class="time-slot-badge badge-available">可預約</div>
+                                <div class="time-slot-time">下午時段</div>
+                                <div>14:30 - 15:30</div>
+                                <div class="time-slot-count">已預約：<span id="afternoonCount">0</span>/3</div>
+                            </div>
+                            <div class="time-slot" data-slot="evening">
+                                <div class="time-slot-badge badge-available">可預約</div>
+                                <div class="time-slot-time">晚上時段</div>
+                                <div>18:30 - 19:30</div>
+                                <div class="time-slot-count">已預約：<span id="eveningCount">0</span>/3</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="visitorName">訪客姓名 *</label>
+                        <input type="text" id="visitorName" class="form-input" placeholder="請輸入您的姓名" required>
+                    </div>
+
+
+
+                    <button type="submit" class="submit-btn" id="submitBtn">確認預約</button>
+                </form>
+            </div>
+
+            <div class="card">
+                <h2 class="card-title">
+                    <span>📅</span>
+                    月曆總覽
+                </h2>
+                <div id="calendarView"></div>
+            </div>
+        </div>
+
+        <div class="booking-list">
+            <h2 class="card-title">
+                <span>📝</span>
+                預約記錄
+            </h2>
+            <div id="bookingsList"></div>
+        </div>
+
+        <a href="https://kuse.ai" target="_blank" class="kuse-branding">
+            <span>made with</span>
+            <svg viewBox="0,0,160,44" xmlns="http://www.w3.org/2000/svg"><path d="m.01,20.65C-.43,8.25,9.3-2.03,22.04.34,34.78,2.72,43.29,8.32,43.29,22.9s-8.66,19.01-22.03,20.3C7.9,44.5.46,33.05.01,20.65z" fill="currentColor"/><path fill-rule="evenodd" clip-rule="evenodd" d="m146.76,7.94c8.07,0,13.24,6.15,13.24,14.58v1.39h-20.75c.45,4.05,3.51,7.37,8.57,7.37,2.62,0,5.73-1.05,7.62-2.94l2.67,3.83c-2.67,2.55-6.62,3.88-10.9,3.88-8.07,0-14.08-5.6-14.08-14.08,0-7.76,5.67-14.02,13.63-14.02zm0,4.77c-5.01,0-7.29,3.83-7.57,7.1h15.13c-.11-3.16-2.28-7.1-7.57-7.1z" fill="currentColor"/><path d="m86.64,24.49c0,4.15,2.39,6.84,6.84,6.84,4.4,0,6.84-2.69,6.84-6.84V8.55h5.37v16.33c0,6.7-4.06,11.14-12.21,11.14-8.21,0-12.21-4.5-12.21-11.09V8.55h5.37v15.94zm32.99-16.55c4.49,0,8.06,1.47,10.6,3.86l-2.59,3.81c-2.05-2-5.28-3.08-8.06-3.08-2.88,0-4.84,1.37-4.84,3.32,0,1.91,2.64,2.54,5.81,3.27,4.59,1.08,10.26,2.4,10.26,8.46,0,4.94-3.76,8.41-11.14,8.41-4.98,0-8.94-1.76-11.24-4.11l2.54-4.11c1.86,1.91,5.18,3.67,8.84,3.67,3.91,0,5.57-1.66,5.57-3.62,0-2.3-2.88-2.98-6.21-3.76-4.54-1.08-9.87-2.3-9.87-8.06,0-4.5,4.2-8.06,10.31-8.06zM60.79,20.82,71.44,8.55h6.5L66.46,21.26,78.82,35.44h-6.5l-9.28-11.1-2.25,2.49v8.6h-5.33V8.55h5.33v12.27z" fill="currentColor"/></svg>
+        </a>
+    </div>
+
+    <script>
+        const STORAGE_KEY = `hospital_visit_bookings`;
+        const MAX_PER_SLOT = 3;
+        
+        let selectedSlot = null;
+        let bookings = [];
+
+        function initApp() {
+            loadBookings();
+            setMinDate();
+            setupEventListeners();
+            updateUI();
+        }
+
+        function setMinDate() {
+            const today = new Date();
+            const tomorrow = new Date(today);
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            const minDate = tomorrow.toISOString().split(`T`)[0];
+            document.getElementById(`visitDate`).setAttribute(`min`, minDate);
+            document.getElementById(`visitDate`).value = minDate;
+        }
+
+        function loadBookings() {
+            const stored = localStorage.getItem(STORAGE_KEY);
+            bookings = stored ? JSON.parse(stored) : [];
+        }
+
+        function saveBookings() {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(bookings));
+        }
+
+        function setupEventListeners() {
+            document.getElementById(`bookingForm`).addEventListener(`submit`, handleSubmit);
+            document.getElementById(`visitDate`).addEventListener(`change`, updateSlotAvailability);
+            
+            document.querySelectorAll(`.time-slot`).forEach(slot => {
+                slot.addEventListener(`click`, handleSlotClick);
+            });
+        }
+
+        function handleSlotClick(e) {
+            const slot = e.currentTarget;
+            if (slot.classList.contains(`disabled`)) return;
+            
+            document.querySelectorAll(`.time-slot`).forEach(s => s.classList.remove(`selected`));
+            slot.classList.add(`selected`);
+            selectedSlot = slot.dataset.slot;
+        }
+
+        function updateSlotAvailability() {
+            const selectedDate = document.getElementById(`visitDate`).value;
+            if (!selectedDate) return;
+
+            const afternoonCount = getSlotCount(selectedDate, `afternoon`);
+            const eveningCount = getSlotCount(selectedDate, `evening`);
+
+            updateSlotUI(`afternoon`, afternoonCount);
+            updateSlotUI(`evening`, eveningCount);
+        }
+
+        function getSlotCount(date, slot) {
+            return bookings.filter(b => b.date === date && b.slot === slot).length;
+        }
+
+        function updateSlotUI(slotType, count) {
+            const slot = document.querySelector(`[data-slot="${slotType}"]`);
+            const countSpan = document.getElementById(`${slotType}Count`);
+            const badge = slot.querySelector(`.time-slot-badge`);
+            
+            countSpan.textContent = count;
+            
+            if (count >= MAX_PER_SLOT) {
+                slot.classList.add(`disabled`);
+                slot.classList.remove(`selected`);
+                badge.textContent = `已額滿`;
+                badge.className = `time-slot-badge badge-full`;
+                if (selectedSlot === slotType) {
+                    selectedSlot = null;
+                }
+            } else {
+                slot.classList.remove(`disabled`);
+                if (count === MAX_PER_SLOT - 1) {
+                    badge.textContent = `最後1位`;
+                    badge.className = `time-slot-badge badge-warning`;
+                } else {
+                    badge.textContent = `可預約`;
+                    badge.className = `time-slot-badge badge-available`;
+                }
+            }
+        }
+
+        function handleSubmit(e) {
+            e.preventDefault();
+            
+            const date = document.getElementById(`visitDate`).value;
+            const name = document.getElementById(`visitorName`).value.trim();
+            
+            if (!selectedSlot) {
+                showAlert(`請選擇探訪時段`, `error`);
+                return;
+            }
+            
+            if (!name) {
+                showAlert(`請輸入訪客姓名`, `error`);
+                return;
+            }
+            
+            const slotCount = getSlotCount(date, selectedSlot);
+            if (slotCount >= MAX_PER_SLOT) {
+                showAlert(`此時段已額滿，請選擇其他時段`, `error`);
+                return;
+            }
+            
+            const booking = {
+                id: Date.now(),
+                date: date,
+                slot: selectedSlot,
+                name: name,
+                timestamp: new Date().toISOString()
+            };
+            
+            bookings.push(booking);
+            saveBookings();
+            
+            showAlert(`預約成功！${name} 已預約 ${formatDate(date)} ${getSlotName(selectedSlot)}`, `success`);
+            
+            document.getElementById(`visitorName`).value = ``;
+            document.querySelectorAll(`.time-slot`).forEach(s => s.classList.remove(`selected`));
+            selectedSlot = null;
+            
+            updateUI();
+        }
+
+        function deleteBooking(id) {
+            if (!confirm(`確定要取消此預約嗎？`)) return;
+            
+            bookings = bookings.filter(b => b.id !== id);
+            saveBookings();
+            showAlert(`預約已取消`, `success`);
+            updateUI();
+        }
+
+        function updateUI() {
+            updateSlotAvailability();
+            renderBookingsList();
+            renderCalendar();
+        }
+
+        let currentMonth = new Date();
+        
+        function renderCalendar() {
+            const container = document.getElementById(`calendarView`);
+            const year = currentMonth.getFullYear();
+            const month = currentMonth.getMonth();
+            
+            const firstDay = new Date(year, month, 1);
+            const lastDay = new Date(year, month + 1, 0);
+            const daysInMonth = lastDay.getDate();
+            const startingDayOfWeek = firstDay.getDay();
+            
+            let html = `
+                <div style="margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center;">
+                    <button onclick="changeMonth(-1)" style="padding: 8px 16px; background: #1976D2; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 600;">← 上個月</button>
+                    <div style="font-size: 1.2rem; font-weight: 600; color: #1976D2;">${year}年${month + 1}月</div>
+                    <button onclick="changeMonth(1)" style="padding: 8px 16px; background: #1976D2; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 600;">下個月 →</button>
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; margin-bottom: 10px;">
+            `;
+            
+            const weekdays = [`日`, `一`, `二`, `三`, `四`, `五`, `六`];
+            weekdays.forEach(day => {
+                html += `<div style="text-align: center; font-weight: 600; color: #666; padding: 8px; font-size: 0.9rem;">${day}</div>`;
+            });
+            
+            html += `</div><div style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px;">`;
+            
+            for (let i = 0; i < startingDayOfWeek; i++) {
+                html += `<div></div>`;
+            }
+            
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dateStr = `${year}-${String(month + 1).padStart(2, `0`)}-${String(day).padStart(2, `0`)}`;
+                const afternoonCount = getSlotCount(dateStr, `afternoon`);
+                const eveningCount = getSlotCount(dateStr, `evening`);
+                const totalCount = afternoonCount + eveningCount;
+                
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+                const currentDate = new Date(year, month, day);
+                const isPast = currentDate < today;
+                
+                let bgColor = `#F5F5F5`;
+                let textColor = `#333`;
+                
+                if (isPast) {
+                    bgColor = `#E0E0E0`;
+                    textColor = `#999`;
+                } else if (totalCount > 0) {
+                    if (totalCount >= 6) {
+                        bgColor = `#FFEBEE`;
+                    } else if (totalCount >= 4) {
+                        bgColor = `#FFF3E0`;
+                    } else {
+                        bgColor = `#E8F5E9`;
+                    }
+                }
+                
+                html += `
+                    <div style="background: ${bgColor}; border-radius: 8px; padding: 8px; min-height: 70px; position: relative;">
+                        <div style="font-weight: 600; color: ${textColor}; margin-bottom: 4px; font-size: 0.95rem;">${day}</div>
+                `;
+                
+                if (!isPast && totalCount > 0) {
+                    html += `
+                        <div style="font-size: 0.75rem; color: #666; margin-bottom: 2px;">
+                            <span style="color: ${afternoonCount >= MAX_PER_SLOT ? `#F44336` : `#4CAF50`};">☀️${afternoonCount}</span>
+                        </div>
+                        <div style="font-size: 0.75rem; color: #666;">
+                            <span style="color: ${eveningCount >= MAX_PER_SLOT ? `#F44336` : `#4CAF50`};">🌙${eveningCount}</span>
+                        </div>
+                    `;
+                }
+                
+                html += `</div>`;
+            }
+            
+            html += `</div>`;
+            html += `
+                <div style="margin-top: 20px; padding: 15px; background: #F5F5F5; border-radius: 8px; font-size: 0.85rem; color: #666;">
+                    <div style="font-weight: 600; margin-bottom: 8px; color: #333;">圖例說明：</div>
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px;">
+                        <div>☀️ 下午時段人數</div>
+                        <div>🌙 晚上時段人數</div>
+                        <div><span style="color: #4CAF50;">●</span> 有空位</div>
+                        <div><span style="color: #F44336;">●</span> 已額滿</div>
+                    </div>
+                </div>
+            `;
+            
+            container.innerHTML = html;
+        }
+        
+        function changeMonth(delta) {
+            currentMonth.setMonth(currentMonth.getMonth() + delta);
+            renderCalendar();
+        }
+
+        function renderBookingsList() {
+            const container = document.getElementById(`bookingsList`);
+            
+            if (bookings.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                        <p>目前沒有任何預約記錄</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            const groupedBookings = {};
+            bookings.forEach(booking => {
+                if (!groupedBookings[booking.date]) {
+                    groupedBookings[booking.date] = { afternoon: [], evening: [] };
+                }
+                groupedBookings[booking.date][booking.slot].push(booking);
+            });
+            
+            const sortedDates = Object.keys(groupedBookings).sort();
+            
+            let html = ``;
+            sortedDates.forEach(date => {
+                html += `
+                    <div class="date-group">
+                        <div class="date-header">${formatDate(date)}</div>
+                `;
+                
+                [`afternoon`, `evening`].forEach(slot => {
+                    const slotBookings = groupedBookings[date][slot];
+                    if (slotBookings.length > 0) {
+                        html += `
+                            <div class="time-group">
+                                <div class="time-group-header">
+                                    <span>${getSlotIcon(slot)}</span>
+                                    <span>${getSlotName(slot)}</span>
+                                    <span style="color: #999; font-size: 0.9rem;">(${slotBookings.length}/${MAX_PER_SLOT})</span>
+                                </div>
+                        `;
+                        
+                        slotBookings.forEach(booking => {
+                            html += `
+                                <div class="booking-item">
+                                    <div class="booking-info">
+                                        <span class="booking-name">${booking.name}</span>
+                                    </div>
+                                    <button class="delete-btn" onclick="deleteBooking(${booking.id})">取消預約</button>
+                                </div>
+                            `;
+                        });
+                        
+                        html += `</div>`;
+                    }
+                });
+                
+                html += `</div>`;
+            });
+            
+            container.innerHTML = html;
+        }
+
+        function showAlert(message, type) {
+            const container = document.getElementById(`alertContainer`);
+            const alert = document.createElement(`div`);
+            alert.className = `alert alert-${type} show`;
+            alert.textContent = message;
+            
+            container.appendChild(alert);
+            
+            setTimeout(() => {
+                alert.classList.remove(`show`);
+                setTimeout(() => alert.remove(), 300);
+            }, 3000);
+        }
+
+        function formatDate(dateStr) {
+            const date = new Date(dateStr + `T00:00:00`);
+            const year = date.getFullYear();
+            const month = date.getMonth() + 1;
+            const day = date.getDate();
+            const weekdays = [`日`, `一`, `二`, `三`, `四`, `五`, `六`];
+            const weekday = weekdays[date.getDay()];
+            
+            return `${year}年${month}月${day}日 (星期${weekday})`;
+        }
+
+        function getSlotName(slot) {
+            return slot === `afternoon` ? `下午時段 (14:30-15:30)` : `晚上時段 (18:30-19:30)`;
+        }
+
+        function getSlotIcon(slot) {
+            return slot === `afternoon` ? `☀️` : `🌙`;
+        }
+
+        initApp();
+    </script>
+    <script src="https://cdn.kuse.ai/sdk.prd.js"></script>
+</body>
+</html>
