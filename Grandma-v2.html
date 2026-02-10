@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
-<head><meta property="og:title" content="阿嬤探訪預約系統-v2"><meta property="og:description" content="阿嬤探訪預約系統-v2"><meta property="og:url" content="https://www.kuse.ai/pages/%E9%98%BF%E5%AC%A4%E6%8E%A2%E8%A8%AA%E9%A0%90%E7%B4%84%E7%B3%BB%E7%B5%B1-%E9%9B%B2%E7%AB%AF%E5%90%8C%E6%AD%A5%E7%89%88/XfJB3LA73VyqZWZb6cQ3TB"><meta property="og:type" content="article"><meta property="og:site_name" content="Kuse AI"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="阿嬤探訪預約系統 雲端同步版 -  Kuse AI"><meta name="twitter:description" content="阿嬤探訪預約系統 雲端同步版"><meta name="twitter:site" content="@kuseHQ"><link rel="canonical" href="https://www.kuse.ai/pages/%E9%98%BF%E5%AC%A4%E6%8E%A2%E8%A8%AA%E9%A0%90%E7%B4%84%E7%B3%BB%E7%B5%B1-%E9%9B%B2%E7%AB%AF%E5%90%8C%E6%AD%A5%E7%89%88/XfJB3LA73VyqZWZb6cQ3TB"><meta name="description" content="阿嬤探訪預約系統 雲端同步版">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>阿嬤探訪預約系統-v2</title>
+    <title>阿嬤探訪預約系統 v2 - 雲端版</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -13,515 +13,237 @@
             min-height: 100vh;
             padding: 20px;
         }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        .header {
+        .container { max-width: 1200px; margin: 0 auto; }
+        .card, .header, .booking-list {
             background: #fff;
             border-radius: 1.5rem;
             box-shadow: 0 4px 24px rgba(25, 118, 210, 0.1);
+            padding: 2rem;
         }
-        .card {
-            background: #fff;
-            border-radius: 1.5rem;
-            box-shadow: 0 4px 24px rgba(25, 118, 210, 0.1);
-        }
-        .booking-list {
-            background: #fff;
-            border-radius: 1.5rem;
-            box-shadow: 0 4px 24px rgba(25, 118, 210, 0.1);
-        }
-        .time-slot {
-            transition: all 0.3s ease;
-            border-color: #e0e0e0;
-        }
-        .time-slot:hover {
-            border-color: #1976D2;
-            background-color: #E3F2FD;
-        }
-        .time-slot.selected {
-            border-color: #1976D2;
-            background-color: #E3F2FD;
-            box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.2);
-        }
-        .time-slot-badge.bg-green-500 { 
-            background-color: #43a047; 
-        }
-        .time-slot-badge.bg-orange-500 { 
-            background-color: #fb8c00; 
-        }
-        .time-slot-badge.bg-red-500 { 
-            background-color: #e53935; 
-        }
-        .calendar-day {
-            border-radius: 1rem;
-            min-height: 130px;
-            box-shadow: 0 2px 8px rgba(25, 118, 210, 0.06);
-            padding: 10px;
-            margin: 3px;
-            transition: all 0.2s ease;
-            cursor: pointer;
-        }
-        .calendar-day:hover:not(.past) {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(25, 118, 210, 0.15);
-        }
-        .calendar-day.available {
-            background-color: #E3F2FD;
-            border: 2px solid #1976D2;
-        }
-        .calendar-day.full {
-            background-color: #e53935;
-            color: #fff;
-            border: 2px solid #e53935;
-        }
-        .calendar-day.almost {
-            background-color: #fb8c00;
-            color: #fff;
-            border: 2px solid #fb8c00;
-        }
-        .calendar-day.past {
-            background-color: #ccc;
-            color: #888;
-            border: 2px solid #ccc;
-            cursor: not-allowed;
-        }
-        .delete-btn {
-            background: #e53935;
-            color: #fff;
-            border-radius: 0.5rem;
-            padding: 6px 12px;
-            font-size: 0.95rem;
-            margin-left: 8px;
-            border: none;
-            cursor: pointer;
-            transition: background 0.2s ease;
-        }
-        .delete-btn:hover {
-            background: #b71c1c;
-        }
-        .month-nav-btn {
-            background: #1976D2;
-            color: #fff;
-            border-radius: 0.5rem;
-            padding: 8px 16px;
-            border: none;
-            cursor: pointer;
-            transition: background 0.2s ease;
-        }
-        .month-nav-btn:hover {
-            background: #1565C0;
-        }
-        .alert {
-            border-radius: 0.75rem;
-            padding: 1rem;
-            margin-bottom: 1rem;
-            animation: slideIn 0.3s ease;
-        }
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        @media (max-width: 1024px) {
-            .container {
-                padding: 0;
-            }
-            body {
-                padding: 10px;
-            }
-            .calendar-day {
-                min-height: 100px;
-                font-size: 0.85rem;
-            }
-        }
-        .kuse-branding {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 16px;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            font-size: 0.9rem;
-            color: #202020;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-        .kuse-branding:hover {
-            color: #1976D2;
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
-            transform: translateY(-2px);
-        }
-        .kuse-branding svg {
-            height: 1.2em;
-            width: auto;
-        }
+        .time-slot { transition: all 0.3s ease; border: 2px solid #e0e0e0; border-radius: 0.75rem; padding: 1rem; cursor: pointer; position: relative; }
+        .time-slot.selected { border-color: #1976D2; background-color: #E3F2FD; box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.2); }
+        .calendar-day { border-radius: 0.75rem; min-height: 100px; padding: 8px; margin: 2px; background: #f8fafc; border: 1px solid #e2e8f0; }
+        .calendar-day.full { background-color: #fee2e2; border-color: #ef4444; }
+        .calendar-day.available { background-color: #f0fdf4; border-color: #22c55e; }
+        .calendar-day.past { background-color: #f1f5f9; color: #94a3b8; cursor: not-allowed; }
+        .delete-btn { background: #ef4444; color: white; padding: 4px 12px; border-radius: 0.5rem; font-size: 0.875rem; }
     </style>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"阿嬤探訪預約系統-v2","description":"阿嬤探訪預約系統-v2","url":"https://www.kuse.ai/pages/%E9%98%BF%E5%AC%A4%E6%8E%A2%E8%A8%AA%E9%A0%90%E7%B4%84%E7%B3%BB%E7%B5%B1-%E9%9B%B2%E7%AB%AF%E5%90%8C%E6%AD%A5%E7%89%88/XfJB3LA73VyqZWZb6cQ3TB","author":{"@type":"Organization","name":"Kuse AI"},"publisher":{"@type":"Organization","name":"Kuse AI","url":"https://www.kuse.ai"},"inLanguage":"en","alternateName":"阿嬤探訪預約系統 雲端同步版"}</script></head>
+</head>
 <body>
-    <div class="container mx-auto p-5">
-        <div class="header text-center mb-10 p-8 bg-white rounded-2xl shadow-lg">
+    <div class="container">
+        <div class="header text-center mb-10">
             <h1 class="text-4xl font-bold text-blue-600 mb-2">🏥 阿嬤探訪預約系統-v2</h1>
-            <div id="syncStatus" style="margin-top: 10px; font-size: 0.9rem; color: #666;">正在連接 Firebase...</div>
+            <p class="text-gray-600">所有人的預約紀錄將會即時顯示在這裡</p>
+            <div id="syncStatus" class="mt-3 text-sm font-medium">正在連接 Firebase...</div>
         </div>
 
         <div id="alertContainer"></div>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-10">
-            <div class="card bg-white p-8 rounded-2xl shadow-lg lg:col-span-1">
-                <h2 class="text-2xl font-semibold text-blue-600 mb-5 flex items-center gap-2">
-                    <span>📅</span> 預約登記
-                </h2>
+            <div class="card lg:col-span-1">
+                <h2 class="text-2xl font-semibold text-blue-600 mb-5 flex items-center gap-2">📅 預約登記</h2>
                 <form id="bookingForm">
                     <div class="mb-5">
                         <label class="block font-medium mb-2">選擇探訪日期</label>
-                        <input type="date" id="visitDate" class="w-full p-3 border-2 rounded-lg focus:border-blue-500 focus:outline-none" required>
+                        <input type="date" id="visitDate" class="w-full p-3 border-2 rounded-lg focus:border-blue-500 outline-none" required>
                     </div>
                     <div class="mb-5">
                         <label class="block font-medium mb-2">選擇探訪時段</label>
-                        <div class="grid grid-cols-1 gap-3" id="timeSlots">
-                            <div class="time-slot border-2 p-4 rounded-xl cursor-pointer relative" data-slot="afternoon">
-                                <div class="time-slot-badge absolute top-2 right-2 px-2 py-1 rounded-full text-xs bg-green-500 text-white">可預約</div>
-                                <div class="font-bold text-lg">☀️ 下午時段</div>
-                                <div class="text-sm text-gray-500">14:30 - 15:30</div>
+                        <div class="grid gap-3" id="timeSlots">
+                            <div class="time-slot" data-slot="afternoon">
+                                <span class="time-slot-badge absolute top-2 right-2 px-2 py-1 rounded-full text-[10px] text-white bg-gray-400">讀取中</span>
+                                <div class="font-bold">☀️ 下午時段</div>
+                                <div class="text-xs text-gray-500">14:30 - 15:30</div>
                                 <div class="text-sm mt-1">已預約：<span id="afternoonCount">0</span>/3</div>
                             </div>
-                            <div class="time-slot border-2 p-4 rounded-xl cursor-pointer relative" data-slot="evening">
-                                <div class="time-slot-badge absolute top-2 right-2 px-2 py-1 rounded-full text-xs bg-green-500 text-white">可預約</div>
-                                <div class="font-bold text-lg">🌙 晚上時段</div>
-                                <div class="text-sm text-gray-500">18:30 - 19:30</div>
+                            <div class="time-slot" data-slot="evening">
+                                <span class="time-slot-badge absolute top-2 right-2 px-2 py-1 rounded-full text-[10px] text-white bg-gray-400">讀取中</span>
+                                <div class="font-bold">🌙 晚上時段</div>
+                                <div class="text-xs text-gray-500">18:30 - 19:30</div>
                                 <div class="text-sm mt-1">已預約：<span id="eveningCount">0</span>/3</div>
                             </div>
                         </div>
                     </div>
                     <div class="mb-5">
                         <label class="block font-medium mb-2">訪客姓名 *</label>
-                        <input type="text" id="visitorName" class="w-full p-3 border-2 rounded-lg focus:border-blue-500 focus:outline-none" placeholder="請輸入您的姓名" required>
+                        <input type="text" id="visitorName" class="w-full p-3 border-2 rounded-lg focus:border-blue-500 outline-none" placeholder="請輸入姓名" required>
                     </div>
-                    <button type="submit" class="w-full bg-blue-600 text-white p-4 rounded-lg font-bold hover:bg-blue-700 transition" id="submitBtn">
-                        確認預約
-                    </button>
+                    <button type="submit" class="w-full bg-blue-600 text-white p-4 rounded-lg font-bold hover:bg-blue-700 transition">確認預約</button>
                 </form>
             </div>
 
-            <div class="card bg-white p-8 rounded-2xl shadow-lg lg:col-span-2">
+            <div class="card lg:col-span-2">
                 <div class="flex justify-between items-center mb-5">
-                    <h2 class="text-2xl font-semibold text-blue-600 flex items-center gap-2">
-                        <span>📅</span> 月曆總覽
-                    </h2>
+                    <h2 class="text-2xl font-semibold text-blue-600">📅 月曆總覽</h2>
                     <div class="flex gap-2">
-                        <button id="prevMonth" class="month-nav-btn">← 上個月</button>
-                        <button id="nextMonth" class="month-nav-btn">下個月 →</button>
+                        <button id="prevMonth" class="bg-blue-600 text-white px-4 py-2 rounded-lg">←</button>
+                        <button id="nextMonth" class="bg-blue-600 text-white px-4 py-2 rounded-lg">→</button>
                     </div>
                 </div>
                 <div id="calendarView"></div>
             </div>
         </div>
 
-        <div class="booking-list bg-white p-8 rounded-2xl shadow-lg">
-            <h2 class="text-2xl font-semibold text-blue-600 mb-5 flex items-center gap-2">
-                <span>📝</span> 預約記錄
-            </h2>
+        <div class="booking-list">
+            <h2 class="text-2xl font-semibold text-blue-600 mb-5">📝 預約記錄</h2>
             <div id="bookingsList"></div>
         </div>
     </div>
-
-    <a href="https://kuse.ai" target="_blank" class="kuse-branding">
-        <span>made with</span>
-        <svg viewBox="0,0,160,44" xmlns="http://www.w3.org/2000/svg"><path d="m.01,20.65C-.43,8.25,9.3-2.03,22.04.34,34.78,2.72,43.29,8.32,43.29,22.9s-8.66,19.01-22.03,20.3C7.9,44.5.46,33.05.01,20.65z" fill="currentColor"/><path fill-rule="evenodd" clip-rule="evenodd" d="m146.76,7.94c8.07,0,13.24,6.15,13.24,14.58v1.39h-20.75c.45,4.05,3.51,7.37,8.57,7.37,2.62,0,5.73-1.05,7.62-2.94l2.67,3.83c-2.67,2.55-6.62,3.88-10.9,3.88-8.07,0-14.08-5.6-14.08-14.08,0-7.76,5.67-14.02,13.63-14.02zm0,4.77c-5.01,0-7.29,3.83-7.57,7.1h15.13c-.11-3.16-2.28-7.1-7.57-7.1z" fill="currentColor"/><path d="m86.64,24.49c0,4.15,2.39,6.84,6.84,6.84,4.4,0,6.84-2.69,6.84-6.84V8.55h5.37v16.33c0,6.7-4.06,11.14-12.21,11.14-8.21,0-12.21-4.5-12.21-11.09V8.55h5.37v15.94zm32.99-16.55c4.49,0,8.06,1.47,10.6,3.86l-2.59,3.81c-2.05-2-5.28-3.08-8.06-3.08-2.88,0-4.84,1.37-4.84,3.32,0,1.91,2.64,2.54,5.81,3.27,4.59,1.08,10.26,2.4,10.26,8.46,0,4.94-3.76,8.41-11.14,8.41-4.98,0-8.94-1.76-11.24-4.11l2.54-4.11c1.86,1.91,5.18,3.67,8.84,3.67,3.91,0,5.57-1.66,5.57-3.62,0-2.3-2.88-2.98-6.21-3.76-4.54-1.08-9.87-2.3-9.87-8.06,0-4.5,4.2-8.06,10.31-8.06zM60.79,20.82,71.44,8.55h6.5L66.46,21.26,78.82,35.44h-6.5l-9.28-11.1-2.25,2.49v8.6h-5.33V8.55h5.33v12.27z" fill="currentColor"/></svg>
-    </a>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getFirestore, collection, addDoc, onSnapshot, query, deleteDoc, doc, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
         const firebaseConfig = {
-            apiKey: `AIzaSyBEMARR3MhHhuJtTjpSJMKSuOdzwtirn1s`,
-            authDomain: `hospital-booking-5dee2.firebaseapp.com`,
-            projectId: `hospital-booking-5dee2`,
-            storageBucket: `hospital-booking-5dee2.firebasestorage.app`,
-            messagingSenderId: `164407619822`,
-            appId: `1:164407619822:web:242bd222a3837fc272c3ff`
+            apiKey: "AIzaSyBEMARR3MhHhuJtTjpSJMKSuOdzwtirn1s",
+            authDomain: "hospital-booking-5dee2.firebaseapp.com",
+            projectId: "hospital-booking-5dee2",
+            storageBucket: "hospital-booking-5dee2.firebasestorage.app",
+            messagingSenderId: "164407619822",
+            appId: "1:164407619822:web:242bd222a3837fc272c3ff"
         };
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
+        const bookingsCol = collection(db, "bookings");
 
         let currentMonth = new Date().getMonth();
         let currentYear = new Date().getFullYear();
+        let allBookings = [];
 
-        window.cancelBooking = async function(id) {
-            if(confirm(`確定要取消這筆預約嗎？`)) {
-                try {
-                    await deleteDoc(doc(db, `bookings`, id));
-                    showAlert(`預約已取消`, `success`);
-                } catch(e) {
-                    showAlert(`取消失敗：` + e.message, `error`);
-                }
+        // 監聽數據
+        onSnapshot(query(bookingsCol, orderBy("date")), (snapshot) => {
+            allBookings = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+            renderUI();
+            document.getElementById('syncStatus').innerHTML = "✅ Firebase 雲端同步已啟用";
+            document.getElementById('syncStatus').className = "mt-3 text-sm font-medium text-green-600";
+        }, (error) => {
+            document.getElementById('syncStatus').innerHTML = "❌ 連接失敗: " + error.message;
+            document.getElementById('syncStatus').className = "mt-3 text-sm font-medium text-red-600";
+        });
+
+        function renderUI() {
+            renderBookingsList(allBookings);
+            renderCalendar(allBookings);
+            updateSlotCounts();
+        }
+
+        // 取消預約 (掛載到 window)
+        window.cancelBooking = async (id) => {
+            if (confirm("確定取消？")) {
+                await deleteDoc(doc(db, "bookings", id));
+                showAlert("預約已取消");
             }
         };
 
-        function showAlert(msg, type=`success`) {
-            const container = document.getElementById(`alertContainer`);
-            const bgColor = type === `success` ? `bg-green-100` : `bg-red-100`;
-            const textColor = type === `success` ? `text-green-700` : `text-red-700`;
-            container.innerHTML = `<div class="alert ${bgColor} ${textColor}">${msg}</div>`;
-            setTimeout(() => container.innerHTML = ``, 3000);
-        }
-
-        const bookingForm = document.getElementById(`bookingForm`);
-        bookingForm.addEventListener(`submit`, async (e) => {
+        // 表單提交
+        document.getElementById('bookingForm').addEventListener('submit', async (e) => {
             e.preventDefault();
-            const date = document.getElementById(`visitDate`).value;
-            const selectedSlot = document.querySelector(`.time-slot.selected`);
-            const slot = selectedSlot?.dataset.slot;
-            const name = document.getElementById(`visitorName`).value.trim();
+            const date = document.getElementById('visitDate').value;
+            const name = document.getElementById('visitorName').value.trim();
+            const slotEl = document.querySelector('.time-slot.selected');
+            
+            if (!slotEl) return showAlert("請選擇時段", "error");
+            const slot = slotEl.dataset.slot;
 
-            if(!date || !slot || !name) {
-                showAlert(`請完整填寫預約資訊`, `error`);
-                return;
-            }
+            const count = allBookings.filter(b => b.date === date && b.slot === slot).length;
+            if (count >= 3) return showAlert("此時段已滿", "error");
 
-            try {
-                const q = query(collection(db, `bookings`));
-                const unsubscribe = onSnapshot(q, async (snapshot) => {
-                    const count = snapshot.docs.filter(doc => {
-                        const data = doc.data();
-                        return data.date === date && data.slot === slot;
-                    }).length;
-
-                    if(count >= 3) {
-                        showAlert(`此時段已額滿，請選擇其他時段`, `error`);
-                        unsubscribe();
-                        return;
-                    }
-
-                    try {
-                        await addDoc(collection(db, `bookings`), {
-                            date: date,
-                            slot: slot,
-                            name: name,
-                            created: Date.now()
-                        });
-                        showAlert(`預約成功！`, `success`);
-                        bookingForm.reset();
-                        document.querySelectorAll(`.time-slot`).forEach(el => el.classList.remove(`selected`));
-                        unsubscribe();
-                    } catch(e) {
-                        showAlert(`預約失敗：` + e.message, `error`);
-                        unsubscribe();
-                    }
-                }, { once: true });
-            } catch(e) {
-                showAlert(`預約失敗：` + e.message, `error`);
-            }
+            await addDoc(bookingsCol, { date, slot, name, created: Date.now() });
+            showAlert("預約成功！");
+            document.getElementById('visitorName').value = "";
         });
 
-        document.querySelectorAll(`.time-slot`).forEach(el => {
-            el.addEventListener(`click`, () => {
-                document.querySelectorAll(`.time-slot`).forEach(e => e.classList.remove(`selected`));
-                el.classList.add(`selected`);
+        // UI 互動
+        document.querySelectorAll('.time-slot').forEach(el => {
+            el.addEventListener('click', () => {
+                document.querySelectorAll('.time-slot').forEach(e => e.classList.remove('selected'));
+                el.classList.add('selected');
             });
         });
 
-        const visitDate = document.getElementById(`visitDate`);
-        const tomorrow = new Date();
-        tomorrow.setDate(tomorrow.getDate() + 1);
-        visitDate.min = tomorrow.toISOString().split(`T`)[0];
+        document.getElementById('visitDate').addEventListener('change', updateSlotCounts);
+        document.getElementById('prevMonth').addEventListener('click', () => { changeMonth(-1); });
+        document.getElementById('nextMonth').addEventListener('click', () => { changeMonth(1); });
 
-        visitDate.addEventListener(`change`, () => {
-            const selectedDate = visitDate.value;
-            if(selectedDate) {
-                const dateObj = new Date(selectedDate + `T00:00:00`);
-                currentMonth = dateObj.getMonth();
-                currentYear = dateObj.getFullYear();
-            }
-        });
+        function changeMonth(delta) {
+            currentMonth += delta;
+            if (currentMonth < 0) { currentMonth = 11; currentYear--; }
+            else if (currentMonth > 11) { currentMonth = 0; currentYear++; }
+            renderCalendar(allBookings);
+        }
 
-        document.getElementById(`prevMonth`).addEventListener(`click`, () => {
-            currentMonth--;
-            if(currentMonth < 0) {
-                currentMonth = 11;
-                currentYear--;
-            }
-        });
-
-        document.getElementById(`nextMonth`).addEventListener(`click`, () => {
-            currentMonth++;
-            if(currentMonth > 11) {
-                currentMonth = 0;
-                currentYear++;
-            }
-        });
-
-        onSnapshot(
-            query(collection(db, `bookings`), orderBy(`date`)),
-            (snapshot) => {
-                const bookings = snapshot.docs.map(doc => ({
-                    id: doc.id,
-                    ...doc.data()
-                }));
-                renderBookingsList(bookings);
-                renderCalendar(bookings);
-                renderTimeSlotCounts(bookings);
-                document.getElementById(`syncStatus`).innerHTML = `✅ Firebase 雲端同步已啟用`;
-            },
-            (error) => {
-                document.getElementById(`syncStatus`).innerHTML = `❌ 連接失敗：` + error.message;
-            }
-        );
-
-        function renderTimeSlotCounts(bookings) {
-            const date = visitDate.value;
-            if(!date) {
-                document.getElementById(`afternoonCount`).textContent = `0`;
-                document.getElementById(`eveningCount`).textContent = `0`;
-                return;
-            }
-
-            const afternoonCount = bookings.filter(b => b.date === date && b.slot === `afternoon`).length;
-            const eveningCount = bookings.filter(b => b.date === date && b.slot === `evening`).length;
-
-            document.getElementById(`afternoonCount`).textContent = afternoonCount;
-            document.getElementById(`eveningCount`).textContent = eveningCount;
-
-            document.querySelectorAll(`.time-slot-badge`).forEach(el => {
-                el.classList.remove(`bg-green-500`, `bg-orange-500`, `bg-red-500`);
-                const slot = el.parentNode.dataset.slot;
-                const cnt = slot === `afternoon` ? afternoonCount : eveningCount;
-
-                if(cnt >= 3) {
-                    el.classList.add(`bg-red-500`);
-                    el.textContent = `額滿`;
-                } else if(cnt === 2) {
-                    el.classList.add(`bg-orange-500`);
-                    el.textContent = `即將額滿`;
-                } else {
-                    el.classList.add(`bg-green-500`);
-                    el.textContent = `可預約`;
-                }
+        function updateSlotCounts() {
+            const date = document.getElementById('visitDate').value;
+            ['afternoon', 'evening'].forEach(s => {
+                const count = allBookings.filter(b => b.date === date && b.slot === s).length;
+                document.getElementById(`${s}Count`).textContent = count;
+                const badge = document.querySelector(`[data-slot="${s}"] .time-slot-badge`);
+                if (count >= 3) { badge.textContent = "額滿"; badge.className = "time-slot-badge absolute top-2 right-2 px-2 py-1 rounded-full text-[10px] text-white bg-red-500"; }
+                else { badge.textContent = "可預約"; badge.className = "time-slot-badge absolute top-2 right-2 px-2 py-1 rounded-full text-[10px] text-white bg-green-500"; }
             });
         }
 
-        function renderBookingsList(bookings) {
-            const container = document.getElementById(`bookingsList`);
-            if(!bookings.length) {
-                container.innerHTML = `<div class='text-gray-500 text-center py-8'>目前沒有任何預約紀錄</div>`;
-                return;
-            }
+        function renderCalendar(data) {
+            const container = document.getElementById('calendarView');
+            const today = new Date(); today.setHours(0,0,0,0);
+            const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+            const lastDate = new Date(currentYear, currentMonth + 1, 0).getDate();
 
+            let html = `<div class="text-center font-bold text-lg mb-4">${currentYear}年 ${currentMonth+1}月</div>`;
+            html += `<div class="grid grid-cols-7 gap-1 text-center font-bold text-blue-600 mb-2">`;
+            ['日','一','二','三','四','五','六'].forEach(d => html += `<div>${d}</div>`);
+            html += `</div><div class="grid grid-cols-7 gap-1">`;
+
+            for (let i = 0; i < firstDay; i++) html += `<div></div>`;
+            for (let d = 1; d <= lastDate; d++) {
+                const dateStr = `${currentYear}-${(currentMonth+1).toString().padStart(2,'0')}-${d.toString().padStart(2,'0')}`;
+                const dayData = data.filter(b => b.date === dateStr);
+                const isPast = new Date(currentYear, currentMonth, d) < today;
+                const status = isPast ? 'past' : (dayData.length >= 6 ? 'full' : 'available');
+                
+                html += `
+                    <div class="calendar-day ${status} text-center">
+                        <div class="font-bold">${d}</div>
+                        <div class="text-[10px] mt-1">☀️ ${dayData.filter(x=>x.slot==='afternoon').length}/3</div>
+                        <div class="text-[10px]">🌙 ${dayData.filter(x=>x.slot==='evening').length}/3</div>
+                    </div>`;
+            }
+            container.innerHTML = html + `</div>`;
+        }
+
+        function renderBookingsList(data) {
+            const container = document.getElementById('bookingsList');
+            if (!data.length) return container.innerHTML = `<div class="text-gray-400 text-center">暫無紀錄</div>`;
+            
             const grouped = {};
-            bookings.forEach(b => {
-                if(!grouped[b.date]) {
-                    grouped[b.date] = { afternoon: [], evening: [] };
-                }
-                grouped[b.date][b.slot].push(b);
-            });
-
-            let html = ``;
+            data.forEach(b => { if(!grouped[b.date]) grouped[b.date] = []; grouped[b.date].push(b); });
+            
+            let html = "";
             Object.keys(grouped).sort().forEach(date => {
-                const afternoonList = grouped[date].afternoon;
-                const eveningList = grouped[date].evening;
-
-                html += `
-                    <div class="mb-6 border-b pb-6">
-                        <div class="font-bold text-blue-600 text-xl mb-3">${date}</div>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div class="p-4 rounded-lg bg-blue-50">
-                                <div class="font-semibold mb-3 text-lg">☀️ 下午時段 (${afternoonList.length}/3)</div>
-                                ${afternoonList.length > 0 ? afternoonList.map(b => `
-                                    <div class="flex items-center justify-between mb-2 p-2 bg-white rounded">
-                                        <span class="font-medium">${b.name}</span>
-                                        <button class="delete-btn" onclick="cancelBooking('${b.id}')">取消預約</button>
-                                    </div>
-                                `).join(``) : `<div class='text-gray-400 text-center py-2'>尚無預約</div>`}
-                            </div>
-                            <div class="p-4 rounded-lg bg-blue-50">
-                                <div class="font-semibold mb-3 text-lg">🌙 晚上時段 (${eveningList.length}/3)</div>
-                                ${eveningList.length > 0 ? eveningList.map(b => `
-                                    <div class="flex items-center justify-between mb-2 p-2 bg-white rounded">
-                                        <span class="font-medium">${b.name}</span>
-                                        <button class="delete-btn" onclick="cancelBooking('${b.id}')">取消預約</button>
-                                    </div>
-                                `).join(``) : `<div class='text-gray-400 text-center py-2'>尚無預約</div>`}
-                            </div>
-                        </div>
-                    </div>
-                `;
+                html += `<div class="mb-4"><div class="font-bold text-blue-600 border-b mb-2">${date}</div>`;
+                grouped[date].forEach(b => {
+                    html += `
+                        <div class="flex justify-between items-center bg-gray-50 p-2 rounded mb-1 text-sm">
+                            <span>${b.slot === 'afternoon' ? '☀️' : '🌙'} ${b.name}</span>
+                            <button onclick="cancelBooking('${b.id}')" class="delete-btn">取消</button>
+                        </div>`;
+                });
+                html += `</div>`;
             });
-
             container.innerHTML = html;
         }
 
-        function renderCalendar(bookings) {
-            const container = document.getElementById(`calendarView`);
-            const today = new Date();
-            today.setHours(0, 0, 0, 0);
-
-            const firstDay = new Date(currentYear, currentMonth, 1);
-            const lastDay = new Date(currentYear, currentMonth + 1, 0);
-
-            let html = `
-                <div class="flex justify-between items-center mb-4">
-                    <div class="font-bold text-blue-600 text-xl">${currentYear} 年 ${currentMonth + 1} 月</div>
-                </div>
-                <div class="grid grid-cols-7 gap-1">
-            `;
-
-            [`日`, `一`, `二`, `三`, `四`, `五`, `六`].forEach(day => {
-                html += `<div class="text-center font-bold text-blue-700 py-2">${day}</div>`;
-            });
-
-            for(let i = 0; i < firstDay.getDay(); i++) {
-                html += `<div></div>`;
-            }
-
-            for(let d = 1; d <= lastDay.getDate(); d++) {
-                const dateStr = `${currentYear}-${(currentMonth + 1).toString().padStart(2, `0`)}-${d.toString().padStart(2, `0`)}`;
-                const dateObj = new Date(currentYear, currentMonth, d);
-                const dayBookings = bookings.filter(b => b.date === dateStr);
-                const afternoonCount = dayBookings.filter(b => b.slot === `afternoon`).length;
-                const eveningCount = dayBookings.filter(b => b.slot === `evening`).length;
-
-                const isPast = dateObj < today;
-                let statusClass = `available`;
-
-                if(isPast) {
-                    statusClass = `past`;
-                } else if(afternoonCount >= 3 && eveningCount >= 3) {
-                    statusClass = `full`;
-                } else if(afternoonCount === 2 || eveningCount === 2) {
-                    statusClass = `almost`;
-                }
-
-                const afternoonColor = afternoonCount >= 3 ? `text-red-600` : afternoonCount === 2 ? `text-orange-500` : `text-green-600`;
-                const eveningColor = eveningCount >= 3 ? `text-red-600` : eveningCount === 2 ? `text-orange-500` : `text-green-600`;
-
-                html += `
-                    <div class="calendar-day ${statusClass}">
-                        <div class="font-bold text-center mb-2">${d}</div>
-                        <div class="text-xs mt-1 ${afternoonColor}">☀️ ${afternoonCount}/3</div>
-                        <div class="text-xs mt-1 ${eveningColor}">🌙 ${eveningCount}/3</div>
-                    </div>
-                `;
-            }
-
-            html += `</div>`;
-            container.innerHTML = html;
+        function showAlert(m, type="success") {
+            const c = document.getElementById('alertContainer');
+            c.innerHTML = `<div class="p-3 mb-4 rounded-lg text-white ${type==='success'?'bg-green-500':'bg-red-500'}">${m}</div>`;
+            setTimeout(()=>c.innerHTML="", 3000);
         }
+
+        // 設定初始日期
+        const tomorrow = new Date(); tomorrow.setDate(tomorrow.getDate() + 1);
+        document.getElementById('visitDate').value = tomorrow.toISOString().split('T')[0];
+        document.getElementById('visitDate').min = tomorrow.toISOString().split('T')[0];
     </script>
-
-    <script src="https://cdn.kuse.ai/sdk.prd.js"></script>
 </body>
 </html>
